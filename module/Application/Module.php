@@ -1,6 +1,6 @@
 <?php
 /**
- * Zend Framework 2 - MySkeletonApplication
+ * Zend Framework 2 - PHP-Summit 2013 Event Application
  *
  * Gepimpte SkeletonApplication für das Zend Framework 2,
  *
@@ -45,6 +45,8 @@ class Module implements
         $eventManager = $e->getApplication()->getEventManager();
         $moduleRouteListener = new ModuleRouteListener();
         $moduleRouteListener->attach($eventManager);
+
+        $e->getApplication()->getServiceManager()->get('SessionConfig');
     }
 
     /**

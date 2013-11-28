@@ -1,6 +1,6 @@
 <?php
 /**
- * Zend Framework 2 - MySkeletonApplication
+ * Zend Framework 2 - PHP-Summit 2013 Event Application
  *
  * Gepimpte SkeletonApplication für das Zend Framework 2,
  *
@@ -15,9 +15,9 @@
  * @package    Application
  */
 return array(
-    'router'          => array(
+    'router'       => array(
         'routes' => array(
-            'home'    => array(
+            'home' => array(
                 'type'    => 'Literal',
                 'options' => array(
                     'route'    => '/',
@@ -30,13 +30,13 @@ return array(
         ),
     ),
 
-    'controllers'     => array(
+    'controllers'  => array(
         'invokables' => array(
             'index' => 'Application\Controller\IndexController',
         ),
     ),
 
-    'view_manager'    => array(
+    'view_manager' => array(
         'display_not_found_reason' => true,
         'display_exceptions'       => true,
         'doctype'                  => 'HTML5',
@@ -46,5 +46,15 @@ return array(
         'template_path_stack'      => array(
             __DIR__ . '/../view',
         ),
+    ),
+
+    'service_manager' => array(
+        'factories' => array(
+            'SessionConfig' => 'Zend\Session\Service\SessionConfigFactory',
+        ),
+    ),
+
+    'session_config' => array(
+        'name' => 'ZF2PHPSummit',
     ),
 );

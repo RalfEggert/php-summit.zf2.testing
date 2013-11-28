@@ -1,0 +1,42 @@
+<?php
+$event = $this->event;
+?>
+
+<table class="table table-bordered">
+    <tbody>
+    <tr>
+        <th>Id</th>
+        <td><?php echo $event['id']; ?></td>
+    </tr>
+    <tr>
+        <th>Name</th>
+        <td><?php echo $event['name']; ?></td>
+    </tr>
+    <tr>
+        <th>Beschreibung</th>
+        <td><?php echo $event['description']; ?></td>
+    </tr>
+    <tr>
+        <th>Datum</th>
+        <td><?php echo $this->dateFormat(
+                $event['datetime'],
+                IntlDateFormatter::LONG,
+                IntlDateFormatter::NONE
+            ); ?></td>
+    </tr>
+    <tr>
+        <th>Uhrzeit</th>
+        <td><?php echo $this->dateFormat(
+                $event['datetime'],
+                IntlDateFormatter::NONE,
+                IntlDateFormatter::SHORT
+            ); ?></td>
+    </tr>
+    </tbody>
+</table>
+
+<p>
+    <a class="btn btn-default" href="<?php echo $this->url('event-admin'); ?>">
+        zurück
+    </a>
+</p>
