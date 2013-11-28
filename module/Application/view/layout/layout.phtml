@@ -63,9 +63,8 @@ $this->inlineScript()->prependFile('/js/jquery-2.0.3.min.js', 'text/javascript')
             </div>
 
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav">
-                    <li><a href="<?php echo $this->url('home'); ?>">Startseite</a></li>
-                </ul>
+                <?php $this->navigation('navigation')->menu()->setUlClass('nav navbar-nav'); ?>
+                <?php echo $this->navigation('navigation')->menu(); ?>
             </div>
         </nav>
     </div>

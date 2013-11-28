@@ -51,10 +51,20 @@ return array(
     'service_manager' => array(
         'factories' => array(
             'SessionConfig' => 'Zend\Session\Service\SessionConfigFactory',
+            'navigation'    => 'Zend\Navigation\Service\DefaultNavigationFactory',
         ),
     ),
 
     'session_config' => array(
         'name' => 'ZF2PHPSummit',
+    ),
+
+    'navigation' => array(
+        'default' => array(
+            array(
+                'label' => 'Startseite',
+                'route' => 'home',
+            ),
+        ),
     ),
 );

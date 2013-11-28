@@ -1,10 +1,10 @@
 <?php
 return array(
-    'router'      => array(
+    'router'       => array(
         'routes' => array(
             'event-admin' => array(
-                'type'    => 'Literal',
-                'options' => array(
+                'type'          => 'Literal',
+                'options'       => array(
                     'route'    => '/event/admin',
                     'defaults' => array(
                         'controller' => 'event-admin',
@@ -12,31 +12,49 @@ return array(
                     ),
                 ),
                 'may_terminate' => true,
-                'child_routes' => array(
+                'child_routes'  => array(
                     'action' => array(
                         'type'    => 'Segment',
                         'options' => array(
-                            'route'    => '/:action[/:id]',
+                            'route'       => '/:action[/:id]',
                             'constraints' => array(
-                                'action'    => '[a-zA-Z][a-zA-Z0-9_-]*',
-                                'id'        => '[0-9]*',
+                                'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                'id'     => '[0-9]*',
                             ),
-                            'defaults' => array(
-                            ),
+                            'defaults'    => array(),
                         ),
                     ),
                 ),
             ),
         ),
     ),
-    'controllers' => array(
+
+    'controllers'  => array(
         'invokables' => array(
             'event-admin' => 'Event\Controller\AdminController',
         ),
     ),
+
     'view_manager' => array(
         'template_path_stack' => array(
             __DIR__ . '/../view',
+        ),
+    ),
+
+    'navigation'   => array(
+        'default' => array(
+            array(
+                'label' => 'Events verwalten',
+                'route' => 'event-admin',
+                'pages' => array(
+                    array(
+                        'label'   => 'Event anzeigen',
+                        'route'   => 'event-admin/action',
+                        'action'  => 'show',
+                        'visible' => false,
+                    ),
+                ),
+            ),
         ),
     ),
 );
