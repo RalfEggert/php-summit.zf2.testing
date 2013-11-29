@@ -7,6 +7,7 @@
         <th>Beschreibung</th>
         <th>Datum</th>
         <th>Uhrzeit</th>
+        <th>Status</th>
         <th>&nbsp;</th>
     </tr>
     </thead>
@@ -21,15 +22,16 @@
             <td><?php echo $event['name']; ?></td>
             <td><?php echo $event['description']; ?></td>
             <td><?php echo $this->dateFormat(
-                    $event['datetime'],
+                    $event['date'],
                     IntlDateFormatter::LONG,
                     IntlDateFormatter::NONE
                 ); ?></td>
             <td><?php echo $this->dateFormat(
-                    $event['datetime'],
+                    $event['time'],
                     IntlDateFormatter::NONE,
                     IntlDateFormatter::SHORT
                 ); ?></td>
+            <td><?php echo $event['status']; ?></td>
             <td>
                 <a class="btn btn-default" href="<?php echo $urlShow; ?>">
                     anzeigen
