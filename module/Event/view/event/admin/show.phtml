@@ -20,7 +20,7 @@ $event = $this->event;
     <tr>
         <th>Datum</th>
         <td><?php echo $this->dateFormat(
-                $event['datetime'],
+                $event['date'],
                 IntlDateFormatter::LONG,
                 IntlDateFormatter::NONE
             ); ?></td>
@@ -28,10 +28,14 @@ $event = $this->event;
     <tr>
         <th>Uhrzeit</th>
         <td><?php echo $this->dateFormat(
-                $event['datetime'],
+                $event['time'],
                 IntlDateFormatter::NONE,
                 IntlDateFormatter::SHORT
             ); ?></td>
+    </tr>
+    <tr>
+        <th>Status</th>
+        <td><?php echo $event['status']; ?></td>
     </tr>
     </tbody>
 </table>
