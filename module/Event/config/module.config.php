@@ -41,6 +41,25 @@ return array(
         ),
     ),
 
+    'service_manager' => array(
+        'invokables' => array(
+            'Event\Entity\Event'  => 'Event\Entity\EventEntity',
+        ),
+        'factories' => array(
+            'Event\Table\Event'   => 'Event\Table\EventTableFactory',
+            'Event\Service\Event' => 'Event\Service\EventServiceFactory',
+        ),
+        'shared' => array(
+            'Event\Entity\Event'  => false,
+        ),
+    ),
+
+    'hydrators' => array(
+        'invokables' => array(
+            'Event\Hydrator'  => 'Event\Hydrator\EventHydrator',
+        ),
+    ),
+
     'navigation'   => array(
         'default' => array(
             array(

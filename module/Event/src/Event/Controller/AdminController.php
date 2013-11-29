@@ -1,15 +1,26 @@
 <?php
-
 namespace Event\Controller;
 
+use Event\Service\EventService;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\Stdlib\ArrayObject;
 use Zend\View\Model\ViewModel;
 
+/**
+ * Class AdminController
+ *
+ * @package Event\Controller
+ */
 class AdminController extends AbstractActionController
 {
+    /**
+     * @var array
+     */
     protected $eventList = array();
 
+    /**
+     *
+     */
     public function __construct()
     {
         $this->eventList = array(
@@ -28,6 +39,9 @@ class AdminController extends AbstractActionController
         );
     }
 
+    /**
+     * @return ViewModel
+     */
     public function indexAction()
     {
         return new ViewModel(
@@ -37,6 +51,9 @@ class AdminController extends AbstractActionController
         );
     }
 
+    /**
+     * @return \Zend\Http\Response|ViewModel
+     */
     public function showAction()
     {
         $id = (int)$this->params()->fromRoute('id');
@@ -51,6 +68,21 @@ class AdminController extends AbstractActionController
                 'event' => $this->eventList[$id],
             )
         );
+    }
+
+    /**
+     * @return \Zend\Http\Response
+     */
+    public function createAction()
+    {
+        /* @var $eventService EventService */
+        $eventService = $this->getServiceLocator()->get('Event\Service\Event');
+
+        foreach ($this->eventList as $eventData) {
+            $eventService->save($eventData);
+        }
+
+        return $this->redirect()->toRoute('event-admin');
     }
 }
 
