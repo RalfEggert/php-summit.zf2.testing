@@ -84,6 +84,9 @@ class AdminController extends AbstractActionController
         $eventService = $this->getServiceLocator()->get('Event\Service\Event');
 
         foreach ($this->eventList as $eventData) {
+            $eventData['date'] = $eventData['date']->format('Y-m-d');
+            $eventData['time'] = $eventData['time']->format('H:i:s');
+
             $eventService->save($eventData);
         }
 
