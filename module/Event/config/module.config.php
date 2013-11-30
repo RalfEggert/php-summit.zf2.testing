@@ -1,6 +1,6 @@
 <?php
 return array(
-    'router'       => array(
+    'router'          => array(
         'routes' => array(
             'event-admin' => array(
                 'type'          => 'Literal',
@@ -29,13 +29,13 @@ return array(
         ),
     ),
 
-    'controllers'  => array(
+    'controllers'     => array(
         'invokables' => array(
             'event-admin' => 'Event\Controller\AdminController',
         ),
     ),
 
-    'view_manager' => array(
+    'view_manager'    => array(
         'template_path_stack' => array(
             __DIR__ . '/../view',
         ),
@@ -43,24 +43,31 @@ return array(
 
     'service_manager' => array(
         'invokables' => array(
-            'Event\Entity\Event'  => 'Event\Entity\EventEntity',
+            'Event\Entity\Event' => 'Event\Entity\EventEntity',
         ),
-        'factories' => array(
+        'factories'  => array(
             'Event\Table\Event'   => 'Event\Table\EventTableFactory',
             'Event\Service\Event' => 'Event\Service\EventServiceFactory',
+            'Event\Config'        => 'Event\Config\EventConfigFactory',
         ),
-        'shared' => array(
-            'Event\Entity\Event'  => false,
+        'shared'     => array(
+            'Event\Entity\Event' => false,
         ),
     ),
 
-    'hydrators' => array(
+    'hydrators'       => array(
         'invokables' => array(
-            'Event\Hydrator'  => 'Event\Hydrator\EventHydrator',
+            'Event\Hydrator' => 'Event\Hydrator\EventHydrator',
         ),
     ),
 
-    'navigation'   => array(
+    'view_helpers'       => array(
+        'factories' => array(
+            'EventStatus' => 'Event\View\Helper\EventStatusFactory',
+        ),
+    ),
+
+    'navigation'      => array(
         'default' => array(
             array(
                 'label' => 'Events verwalten',
