@@ -3,6 +3,7 @@ namespace Event\Service;
 
 use Event\Entity\EventEntity;
 use Event\Hydrator\EventHydrator;
+use Event\InputFilter\EventFilter;
 use Event\Table\EventTable;
 use Zend\Db\Adapter\Exception\InvalidQueryException;
 
@@ -19,38 +20,53 @@ class EventService
      */
     protected $entity;
     /**
+     * @var EventFilter
+     */
+    protected $filter;
+    /**
      * @var EventHydrator
      */
     protected $hydrator;
+    /**
+     * @var string
+     */
+    protected $message;
     /**
      * @var EventTable
      */
     protected $table;
 
     /**
-     * @param EventEntity $entity
-     * @param EventTable  $table
+     * @param EventEntity   $entity
+     * @param EventTable    $table
+     * @param EventHydrator $hydrator
+     * @param EventFilter   $filter
      */
     function __construct(
-        EventEntity $entity, EventTable $table, EventHydrator $hydrator
+        EventEntity $entity, EventTable $table, EventHydrator $hydrator,
+        EventFilter $filter
     ) {
-        $this->entity = $entity;
-        $this->table = $table;
+        $this->entity   = $entity;
+        $this->table    = $table;
         $this->hydrator = $hydrator;
+        $this->filter   = $filter;
     }
 
     /**
-     * @return array
+     * @param null $id
+     *
+     * @return bool
      */
-    public function fetchEventList()
+    public function delete($id = null)
     {
-        $eventList = array();
-
-        foreach ($this->getTable()->fetchMany() as $entity) {
-            $eventList[] = $entity;
+        try {
+            $this->getTable()->delete(array('id' => $id));
+        } catch (InvalidQueryException $e) {
+            $this->setMessage('Event konnte nicht gelöscht werden!')
+            return false;
         }
 
-        return $eventList;
+        return true;
     }
 
     /**
@@ -70,19 +86,33 @@ class EventService
     }
 
     /**
-     * @return EventHydrator
+     * @return array
      */
-    public function getHydrator()
+    public function fetchEventList()
     {
-        return $this->hydrator;
+        $eventList = array();
+
+        foreach ($this->getTable()->fetchMany() as $entity) {
+            $eventList[] = $entity;
+        }
+
+        return $eventList;
     }
 
     /**
-     * @param EventHydrator $hydrator
+     * @return string
      */
-    public function setHydrator(EventHydrator $hydrator)
+    public function getMessage()
     {
-        $this->hydrator = $hydrator;
+        return $this->message;
+    }
+
+    /**
+     * @param string $message
+     */
+    public function setMessage($message)
+    {
+        $this->message = $message;
     }
 
     /**
@@ -99,6 +129,13 @@ class EventService
             ? clone $this->getEntity()
             : $this->fetchEventEntity($id);
 
+        $this->getFilter()->setData($data);
+
+        if (!$this->getFilter()->isValid()) {
+            $this->setMessage('Bitte Eingaben überprüfen!')
+            return false;
+        }
+
         $this->getHydrator()->hydrate($data, $entity);
 
         $saveData = $this->getHydrator()->extract($entity);
@@ -111,26 +148,11 @@ class EventService
                 $this->getTable()->update($saveData, $id);
             }
         } catch (InvalidQueryException $e) {
+            $this->setMessage('Event konnte nicht gespeichert werden!')
             return false;
         }
 
         return $this->fetchEventEntity($id);
-    }
-
-    /**
-     * @param null $id
-     *
-     * @return bool
-     */
-    public function delete($id = null)
-    {
-        try {
-            $this->getTable()->delete(array('id' => $id));
-        } catch (InvalidQueryException $e) {
-            return false;
-        }
-
-        return true;
     }
 
     /**
@@ -157,5 +179,37 @@ class EventService
     public function fetchEventEntity($id)
     {
         return $this->getTable()->fetchSingleById($id);
+    }
+
+    /**
+     * @return \Event\InputFilter\EventFilter
+     */
+    public function getFilter()
+    {
+        return $this->filter;
+    }
+
+    /**
+     * @param \Event\InputFilter\EventFilter $filter
+     */
+    public function setFilter($filter)
+    {
+        $this->filter = $filter;
+    }
+
+    /**
+     * @return EventHydrator
+     */
+    public function getHydrator()
+    {
+        return $this->hydrator;
+    }
+
+    /**
+     * @param EventHydrator $hydrator
+     */
+    public function setHydrator(EventHydrator $hydrator)
+    {
+        $this->hydrator = $hydrator;
     }
 }

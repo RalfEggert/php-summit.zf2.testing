@@ -1,6 +1,7 @@
 <?php
 namespace Event\Controller;
 
+use Event\InputFilter\EventFilter;
 use Event\Service\EventService;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\Stdlib\ArrayObject;
@@ -14,33 +15,24 @@ use Zend\View\Model\ViewModel;
 class AdminController extends AbstractActionController
 {
     /**
-     * @var array
+     * @var EventService
      */
-    protected $eventList = array();
+    protected $eventService;
 
     /**
-     *
+     * @param \Event\Service\EventService $eventService
      */
-    public function __construct()
+    public function setEventService($eventService)
     {
-        $this->eventList = array(
-            123 => array(
-                'id'          => '123',
-                'name'        => 'Fettes Brot Konzert',
-                'description' => 'Fettes Konzert mit den Broten',
-                'date'        => new \DateTime('2013-12-06'),
-                'time'        => new \DateTime('20:00:00'),
-                'status'      => 1,
-            ),
-            456 => array(
-                'id'          => '456',
-                'name'        => 'Malen nach Zahlen',
-                'description' => 'Das Mitmach-Event für die ganze Familie',
-                'date'        => new \DateTime('2013-12-12'),
-                'time'        => new \DateTime('15:00:00'),
-                'status'      => 2,
-            ),
-        );
+        $this->eventService = $eventService;
+    }
+
+    /**
+     * @return \Event\Service\EventService
+     */
+    public function getEventService()
+    {
+        return $this->eventService;
     }
 
     /**
@@ -50,7 +42,7 @@ class AdminController extends AbstractActionController
     {
         return new ViewModel(
             array(
-                'eventList' => $this->eventList,
+                'eventList' => $this->getEventService()->fetchEventList(),
             )
         );
     }
@@ -60,9 +52,11 @@ class AdminController extends AbstractActionController
      */
     public function showAction()
     {
-        $id = (int)$this->params()->fromRoute('id');
+        $id = (int) $this->params()->fromRoute('id');
 
-        if (!isset($this->eventList[$id])) {
+        $event = $this->getEventService()->fetchEventEntity($id);
+
+        if (!$event) {
             $this->flashMessenger()->addErrorMessage('Unbekanntes Event');
 
             return $this->redirect()->toRoute('event-admin');
@@ -70,7 +64,7 @@ class AdminController extends AbstractActionController
 
         return new ViewModel(
             array(
-                'event' => $this->eventList[$id],
+                'event' => $event,
             )
         );
     }
@@ -80,17 +74,7 @@ class AdminController extends AbstractActionController
      */
     public function createAction()
     {
-        /* @var $eventService EventService */
-        $eventService = $this->getServiceLocator()->get('Event\Service\Event');
 
-        foreach ($this->eventList as $eventData) {
-            $eventData['date'] = $eventData['date']->format('Y-m-d');
-            $eventData['time'] = $eventData['time']->format('H:i:s');
-
-            $eventService->save($eventData);
-        }
-
-        return $this->redirect()->toRoute('event-admin');
     }
 }
 

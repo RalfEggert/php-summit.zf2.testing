@@ -30,8 +30,8 @@ return array(
     ),
 
     'controllers'  => array(
-        'invokables' => array(
-            'event-admin' => 'Event\Controller\AdminController',
+        'factories' => array(
+            'event-admin' => 'Event\Controller\AdminControllerFactory',
         ),
     ),
 
@@ -51,6 +51,12 @@ return array(
         ),
         'shared' => array(
             'Event\Entity\Event'  => false,
+        ),
+    ),
+
+    'input_filters' => array(
+        'invokables' => array(
+            'Event\Filter'  => 'Event\Filter\EventFilter',
         ),
     ),
 

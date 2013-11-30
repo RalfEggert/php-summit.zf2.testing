@@ -1,3 +1,4 @@
+<?php /* @var $event Event\Entity\EventEntity */ ?>
 <h1>Events verwalten</h1>
 <table class="table table-bordered">
     <thead>
@@ -15,23 +16,23 @@
     <?php foreach ($this->eventList as $event) : ?>
         <?php $urlShow = $this->url(
             'event-admin/action',
-            array('action' => 'show', 'id' => $event['id'])
+            array('action' => 'show', 'id' => $event->getId())
         ); ?>
         <tr>
-            <td><?php echo $event['id']; ?></td>
-            <td><?php echo $event['name']; ?></td>
-            <td><?php echo $event['description']; ?></td>
+            <td><?php echo $event->getId(); ?></td>
+            <td><?php echo $event->getName(); ?></td>
+            <td><?php echo $event->getDescription(); ?></td>
             <td><?php echo $this->dateFormat(
-                    $event['date'],
+                    $event->getDate(),
                     IntlDateFormatter::LONG,
                     IntlDateFormatter::NONE
                 ); ?></td>
             <td><?php echo $this->dateFormat(
-                    $event['time'],
+                    $event->getTime(),
                     IntlDateFormatter::NONE,
                     IntlDateFormatter::SHORT
                 ); ?></td>
-            <td><?php echo $event['status']; ?></td>
+            <td><?php echo $event->getStatus(); ?></td>
             <td>
                 <a class="btn btn-default" href="<?php echo $urlShow; ?>">
                     anzeigen
