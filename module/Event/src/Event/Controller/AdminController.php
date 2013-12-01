@@ -1,7 +1,7 @@
 <?php
 namespace Event\Controller;
 
-use Event\InputFilter\EventFilter;
+use Event\Form\EventForm;
 use Event\Service\EventService;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\Stdlib\ArrayObject;
@@ -15,16 +15,36 @@ use Zend\View\Model\ViewModel;
 class AdminController extends AbstractActionController
 {
     /**
+     * @var EventForm
+     */
+    protected $eventForm;
+    /**
      * @var EventService
      */
     protected $eventService;
 
     /**
-     * @param \Event\Service\EventService $eventService
+     * @return \Zend\Http\Response
      */
-    public function setEventService($eventService)
+    public function createAction()
     {
-        $this->eventService = $eventService;
+
+    }
+
+    /**
+     * @return \Event\Form\EventForm
+     */
+    public function getEventForm()
+    {
+        return $this->eventForm;
+    }
+
+    /**
+     * @param \Event\Form\EventForm $eventForm
+     */
+    public function setEventForm($eventForm)
+    {
+        $this->eventForm = $eventForm;
     }
 
     /**
@@ -33,6 +53,14 @@ class AdminController extends AbstractActionController
     public function getEventService()
     {
         return $this->eventService;
+    }
+
+    /**
+     * @param \Event\Service\EventService $eventService
+     */
+    public function setEventService($eventService)
+    {
+        $this->eventService = $eventService;
     }
 
     /**
@@ -52,7 +80,7 @@ class AdminController extends AbstractActionController
      */
     public function showAction()
     {
-        $id = (int) $this->params()->fromRoute('id');
+        $id = (int)$this->params()->fromRoute('id');
 
         $event = $this->getEventService()->fetchEventEntity($id);
 
@@ -67,14 +95,6 @@ class AdminController extends AbstractActionController
                 'event' => $event,
             )
         );
-    }
-
-    /**
-     * @return \Zend\Http\Response
-     */
-    public function createAction()
-    {
-
     }
 }
 

@@ -62,7 +62,7 @@ class EventService
         try {
             $this->getTable()->delete(array('id' => $id));
         } catch (InvalidQueryException $e) {
-            $this->setMessage('Event konnte nicht gelöscht werden!')
+            $this->setMessage('Event konnte nicht gelöscht werden!');
             return false;
         }
 
@@ -132,7 +132,7 @@ class EventService
         $this->getFilter()->setData($data);
 
         if (!$this->getFilter()->isValid()) {
-            $this->setMessage('Bitte Eingaben überprüfen!')
+            $this->setMessage('Bitte Eingaben überprüfen!');
             return false;
         }
 
@@ -148,7 +148,7 @@ class EventService
                 $this->getTable()->update($saveData, $id);
             }
         } catch (InvalidQueryException $e) {
-            $this->setMessage('Event konnte nicht gespeichert werden!')
+            $this->setMessage('Event konnte nicht gespeichert werden!');
             return false;
         }
 

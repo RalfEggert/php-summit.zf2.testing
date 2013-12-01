@@ -3,8 +3,37 @@ namespace Event\InputFilter;
 
 use Zend\InputFilter\InputFilter;
 
+/**
+ * Class EventFilter
+ *
+ * @package Event\InputFilter
+ */
 class EventFilter extends InputFilter
 {
+    /**
+     * @var array
+     */
+    protected $statusHaystack = array();
+
+    /**
+     * @return array
+     */
+    public function getStatusHaystack()
+    {
+        return $this->statusHaystack;
+    }
+
+    /**
+     * @param array $statusHaystack
+     */
+    public function setStatusHaystack($statusHaystack)
+    {
+        $this->statusHaystack = $statusHaystack;
+    }
+
+    /**
+     *
+     */
     public function init()
     {
         $this->add(
@@ -90,7 +119,17 @@ class EventFilter extends InputFilter
 
         $this->add(
             array(
-                'name' => 'status',
+                'name'       => 'status',
+                'required'   => true,
+                'validators' => array(
+                    array(
+                        'name'    => 'InArray',
+                        'options' => array(
+                            'haystack' => $this->getStatusHaystack(),
+                            'message'  => 'Ungültiger Status!',
+                        ),
+                    ),
+                ),
             )
         );
     }

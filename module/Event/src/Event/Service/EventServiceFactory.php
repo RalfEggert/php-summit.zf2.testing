@@ -21,14 +21,15 @@ class EventServiceFactory implements FactoryInterface
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         $hydratorManager = $serviceLocator->get('HydratorManager');
+        $inputFilterManager = $serviceLocator->get('InputFilterManager');
 
         $table    = $serviceLocator->get('Event\Table\Event');
         $entity   = $serviceLocator->get('Event\Entity\Event');
         $hydrator = $hydratorManager->get('Event\Hydrator');
+        $filter   = $inputFilterManager->get('Event\Filter');
 
-        $service = new EventService($entity, $table, $hydrator);
+        $service = new EventService($entity, $table, $hydrator, $filter);
 
         return $service;
     }
-
-} 
+}

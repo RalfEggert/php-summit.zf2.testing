@@ -1,6 +1,6 @@
 <?php
 return array(
-    'router'       => array(
+    'router'          => array(
         'routes' => array(
             'event-admin' => array(
                 'type'          => 'Literal',
@@ -29,13 +29,13 @@ return array(
         ),
     ),
 
-    'controllers'  => array(
+    'controllers'     => array(
         'factories' => array(
             'event-admin' => 'Event\Controller\AdminControllerFactory',
         ),
     ),
 
-    'view_manager' => array(
+    'view_manager'    => array(
         'template_path_stack' => array(
             __DIR__ . '/../view',
         ),
@@ -43,30 +43,43 @@ return array(
 
     'service_manager' => array(
         'invokables' => array(
-            'Event\Entity\Event'  => 'Event\Entity\EventEntity',
+            'Event\Entity\Event' => 'Event\Entity\EventEntity',
         ),
-        'factories' => array(
+        'factories'  => array(
             'Event\Table\Event'   => 'Event\Table\EventTableFactory',
             'Event\Service\Event' => 'Event\Service\EventServiceFactory',
+            'Event\Config'        => 'Event\Config\EventConfigFactory',
         ),
-        'shared' => array(
-            'Event\Entity\Event'  => false,
+        'shared'     => array(
+            'Event\Entity\Event' => false,
         ),
     ),
 
-    'input_filters' => array(
+    'input_filters'   => array(
+        'factories' => array(
+            'Event\Filter' => 'Event\InputFilter\EventFilterFactory',
+        ),
+    ),
+
+    'form_elements'   => array(
+        'factories' => array(
+            'Event\Form' => 'Event\Form\EventFormFactory',
+        ),
+    ),
+
+    'hydrators'       => array(
         'invokables' => array(
-            'Event\Filter'  => 'Event\Filter\EventFilter',
+            'Event\Hydrator' => 'Event\Hydrator\EventHydrator',
         ),
     ),
 
-    'hydrators' => array(
-        'invokables' => array(
-            'Event\Hydrator'  => 'Event\Hydrator\EventHydrator',
+    'view_helpers'    => array(
+        'factories' => array(
+            'EventStatus' => 'Event\View\Helper\EventStatusFactory',
         ),
     ),
 
-    'navigation'   => array(
+    'navigation'      => array(
         'default' => array(
             array(
                 'label' => 'Events verwalten',

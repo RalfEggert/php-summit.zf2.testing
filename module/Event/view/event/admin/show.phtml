@@ -36,7 +36,7 @@ $event = $this->event;
     </tr>
     <tr>
         <th>Status</th>
-        <td><?php echo $event->getStatus(); ?></td>
+        <td><?php echo $this->eventStatus($event->getStatus()); ?></td>
     </tr>
     </tbody>
 </table>

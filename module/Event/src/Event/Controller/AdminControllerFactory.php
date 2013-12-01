@@ -9,7 +9,8 @@ use Zend\ServiceManager\ServiceLocatorInterface;
  *
  * @package Event\Controller
  */
-class AdminControllerFactory implements FactoryInterface {
+class AdminControllerFactory implements FactoryInterface
+{
     /**
      * Create service
      *
@@ -19,14 +20,16 @@ class AdminControllerFactory implements FactoryInterface {
      */
     public function createService(ServiceLocatorInterface $controllerLoader)
     {
-        $serviceLocator = $controllerLoader->getServiceLocator();
+        $serviceLocator     = $controllerLoader->getServiceLocator();
+        $formElementManager = $serviceLocator->get('FormElementManager');
 
         $service = $serviceLocator->get('Event\Service\Event');
+        $form    = $formElementManager->get('Event\Form');
 
         $controller = new AdminController();
         $controller->setEventService($service);
+        $controller->setEventForm($form);
 
         return $controller;
     }
-
-} 
+}

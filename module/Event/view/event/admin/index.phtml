@@ -32,7 +32,7 @@
                     IntlDateFormatter::NONE,
                     IntlDateFormatter::SHORT
                 ); ?></td>
-            <td><?php echo $event->getStatus(); ?></td>
+            <td><?php echo $this->eventStatus($event->getStatus()); ?></td>
             <td>
                 <a class="btn btn-default" href="<?php echo $urlShow; ?>">
                     anzeigen
