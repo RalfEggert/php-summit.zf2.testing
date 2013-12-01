@@ -55,6 +55,29 @@ class AdminController extends AbstractActionController
         );
     }
 
+    public function deleteAction()
+    {
+        $id = (int)$this->params()->fromRoute('id');
+
+        $event = $this->getEventService()->fetchEventEntity($id);
+
+        if (!$event) {
+            $this->flashMessenger()->addErrorMessage('Unbekanntes Event');
+
+            return $this->redirect()->toRoute('event-admin');
+        }
+
+        $this->getEventService()->delete($id);
+
+        if ($this->getEventService()->getMessage()) {
+            $this->flashMessenger()->addErrorMessage(
+                $this->getEventService()->getMessage()
+            );
+        }
+
+        return $this->redirect()->toRoute('event-admin');
+    }
+
     /**
      * @return \Event\Form\EventForm
      */
@@ -163,9 +186,9 @@ class AdminController extends AbstractActionController
 
         return new ViewModel(
             array(
-                'event'     => $event,
+                'event' => $event,
                 'eventForm' => $eventForm,
-                'message'   => $this->getEventService()->getMessage(),
+                'message' => $this->getEventService()->getMessage(),
             )
         );
     }

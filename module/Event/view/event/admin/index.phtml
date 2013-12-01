@@ -22,10 +22,20 @@ $urlCreate = $this->url('event-admin/action', array('action' => 'create'));
     </thead>
     <tbody>
     <?php foreach ($this->eventList as $event) : ?>
-        <?php $urlShow = $this->url(
+        <?php
+        $urlShow = $this->url(
             'event-admin/action',
             array('action' => 'show', 'id' => $event->getId())
-        ); ?>
+        );
+        $urlUpdate = $this->url(
+            'event-admin/action',
+            array('action' => 'update', 'id' => $event->getId())
+        );
+        $urlDelete = $this->url(
+            'event-admin/action',
+            array('action' => 'delete', 'id' => $event->getId())
+        );
+        ?>
         <tr>
             <td><?php echo $event->getId(); ?></td>
             <td><?php echo $event->getName(); ?></td>
@@ -44,6 +54,12 @@ $urlCreate = $this->url('event-admin/action', array('action' => 'create'));
             <td>
                 <a class="btn btn-default" href="<?php echo $urlShow; ?>">
                     anzeigen
+                </a>
+                <a class="btn btn-default" href="<?php echo $urlUpdate; ?>">
+                    bearbeiten
+                </a>
+                <a class="btn btn-default" href="<?php echo $urlDelete; ?>">
+                    löschen
                 </a>
             </td>
         </tr>
