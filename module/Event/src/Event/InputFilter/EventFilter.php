@@ -38,12 +38,6 @@ class EventFilter extends InputFilter
     {
         $this->add(
             array(
-                'name' => 'id',
-            )
-        );
-
-        $this->add(
-            array(
                 'name'       => 'name',
                 'required'   => true,
                 'filters'    => array(
