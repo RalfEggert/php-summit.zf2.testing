@@ -55,6 +55,12 @@ return array(
         ),
     ),
 
+    'input_filters'   => array(
+        'factories' => array(
+            'Event\Filter' => 'Event\InputFilter\EventFilterFactory',
+        ),
+    ),
+
     'hydrators'       => array(
         'invokables' => array(
             'Event\Hydrator' => 'Event\Hydrator\EventHydrator',
