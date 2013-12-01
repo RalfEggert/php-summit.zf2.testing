@@ -1,10 +1,8 @@
 <?php
+
 namespace Event\Controller;
 
-use Event\Form\EventForm;
-use Event\Service\EventService;
 use Zend\Mvc\Controller\AbstractActionController;
-use Zend\Stdlib\ArrayObject;
 use Zend\View\Model\ViewModel;
 
 /**
@@ -14,21 +12,19 @@ use Zend\View\Model\ViewModel;
  */
 class AdminController extends AbstractActionController
 {
+
     /**
      * @var EventForm
      */
-    protected $eventForm;
+    protected $eventForm = null;
     /**
      * @var EventService
      */
-    protected $eventService;
+    protected $eventService = null;
 
-    /**
-     * @return \Zend\Http\Response
-     */
     public function createAction()
     {
-
+        return new ViewModel();
     }
 
     /**
@@ -96,5 +92,7 @@ class AdminController extends AbstractActionController
             )
         );
     }
+
+
 }
 

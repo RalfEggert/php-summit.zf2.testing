@@ -22,6 +22,6 @@ return array(
     ),
     'db' => array(
         'driver'   => 'Pdo_Sqlite',
-        'database' => APPLICATION_ROOT . '/data/db/events.db',
+        'database' => __DIR__ . '/../../data/db/events.db',
     ),
 );
