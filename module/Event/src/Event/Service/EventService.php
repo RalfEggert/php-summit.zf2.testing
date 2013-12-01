@@ -70,19 +70,62 @@ class EventService
     }
 
     /**
-     * @return EventTable
+     * @param $id
+     *
+     * @return EventEntity
      */
-    public function getTable()
+    public function fetchEventEntity($id)
     {
-        return $this->table;
+        return $this->getTable()->fetchSingleById($id);
     }
 
     /**
-     * @param EventTable $table
+     * @param null $id
+     *
+     * @return bool
      */
-    public function setTable(EventTable $table)
+    public function delete($id = null)
     {
-        $this->table = $table;
+        try {
+            $this->getTable()->delete(array('id' => $id));
+        } catch (InvalidQueryException $e) {
+            $this->setMessage('Event konnte nicht gelöscht werden!');
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * @return EventEntity
+     */
+    public function getEntity()
+    {
+        return $this->entity;
+    }
+
+    /**
+     * @param EventEntity $entity
+     */
+    public function setEntity(EventEntity $entity)
+    {
+        $this->entity = $entity;
+    }
+
+    /**
+     * @return \Event\InputFilter\EventFilter
+     */
+    public function getFilter()
+    {
+        return $this->filter;
+    }
+
+    /**
+     * @param \Event\InputFilter\EventFilter $filter
+     */
+    public function setFilter($filter)
+    {
+        $this->filter = $filter;
     }
 
     /**
@@ -113,6 +156,38 @@ class EventService
     public function setMessage($message)
     {
         $this->message = $message;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMessage()
+    {
+        return $this->message;
+    }
+
+    /**
+     * @param mixed $message
+     */
+    public function setMessage($message)
+    {
+        $this->message = $message;
+    }
+
+    /**
+     * @return EventTable
+     */
+    public function getTable()
+    {
+        return $this->table;
+    }
+
+    /**
+     * @param EventTable $table
+     */
+    public function setTable(EventTable $table)
+    {
+        $this->table = $table;
     }
 
     /**
@@ -154,6 +229,7 @@ class EventService
 
         return $this->fetchEventEntity($id);
     }
+<<<<<<< HEAD
 
     /**
      * @return EventEntity
@@ -212,4 +288,6 @@ class EventService
     {
         $this->hydrator = $hydrator;
     }
+=======
+>>>>>>> step3
 }
