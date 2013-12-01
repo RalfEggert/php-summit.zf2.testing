@@ -200,7 +200,7 @@ class EventService
                 $this->getTable()->insert($saveData);
                 $id = $this->getTable()->getLastInsertValue();
             } else {
-                $this->getTable()->update($saveData, $id);
+                $this->getTable()->update($saveData, array('id' => $id));
             }
         } catch (InvalidQueryException $e) {
             $this->setMessage('Event konnte nicht gespeichert werden!');
