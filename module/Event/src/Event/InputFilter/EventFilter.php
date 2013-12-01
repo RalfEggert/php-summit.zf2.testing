@@ -108,7 +108,7 @@ class EventFilter extends InputFilter
                     array(
                         'name'    => 'Date',
                         'options' => array(
-                            'format'  => 'H:i:s',
+                            'format'  => 'H:i',
                             'message' => 'Die Zeit entspricht nicht dem '
                                 . 'Format "%format%"!',
                         ),

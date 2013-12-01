@@ -29,7 +29,7 @@ class AdminController extends AbstractActionController
                 'name'        => 'Fettes Brot Konzert',
                 'description' => 'Fettes Konzert mit den Broten',
                 'date'        => new \DateTime('2013-12-06'),
-                'time'        => new \DateTime('20:00:00'),
+                'time'        => new \DateTime('20:00'),
                 'status'      => 1,
             ),
             456 => array(
@@ -37,7 +37,7 @@ class AdminController extends AbstractActionController
                 'name'        => 'Malen nach Zahlen',
                 'description' => 'Das Mitmach-Event für die ganze Familie',
                 'date'        => new \DateTime('2013-12-12'),
-                'time'        => new \DateTime('15:00:00'),
+                'time'        => new \DateTime('15:00'),
                 'status'      => 2,
             ),
         );
@@ -85,7 +85,7 @@ class AdminController extends AbstractActionController
 
         foreach ($this->eventList as $eventData) {
             $eventData['date'] = $eventData['date']->format('Y-m-d');
-            $eventData['time'] = $eventData['time']->format('H:i:s');
+            $eventData['time'] = $eventData['time']->format('H:i');
 
             $eventService->save($eventData);
         }
