@@ -37,10 +37,8 @@ class EventService
     protected $table;
 
     /**
-     * @param EventEntity   $entity
-     * @param EventTable    $table
-     * @param EventHydrator $hydrator
-     * @param EventFilter   $filter
+     * @param EventEntity $entity
+     * @param EventTable  $table
      */
     function __construct(
         EventEntity $entity, EventTable $table, EventHydrator $hydrator,
@@ -63,6 +61,7 @@ class EventService
             $this->getTable()->delete(array('id' => $id));
         } catch (InvalidQueryException $e) {
             $this->setMessage('Event konnte nicht gelöscht werden!');
+
             return false;
         }
 
@@ -80,20 +79,17 @@ class EventService
     }
 
     /**
-     * @param null $id
-     *
-     * @return bool
+     * @return array
      */
-    public function delete($id = null)
+    public function fetchEventList()
     {
-        try {
-            $this->getTable()->delete(array('id' => $id));
-        } catch (InvalidQueryException $e) {
-            $this->setMessage('Event konnte nicht gelöscht werden!');
-            return false;
+        $eventList = array();
+
+        foreach ($this->getTable()->fetchMany() as $entity) {
+            $eventList[] = $entity;
         }
 
-        return true;
+        return $eventList;
     }
 
     /**
@@ -129,33 +125,19 @@ class EventService
     }
 
     /**
-     * @return array
+     * @return EventHydrator
      */
-    public function fetchEventList()
+    public function getHydrator()
     {
-        $eventList = array();
-
-        foreach ($this->getTable()->fetchMany() as $entity) {
-            $eventList[] = $entity;
-        }
-
-        return $eventList;
+        return $this->hydrator;
     }
 
     /**
-     * @return string
+     * @param EventHydrator $hydrator
      */
-    public function getMessage()
+    public function setHydrator(EventHydrator $hydrator)
     {
-        return $this->message;
-    }
-
-    /**
-     * @param string $message
-     */
-    public function setMessage($message)
-    {
-        $this->message = $message;
+        $this->hydrator = $hydrator;
     }
 
     /**
@@ -208,6 +190,7 @@ class EventService
 
         if (!$this->getFilter()->isValid()) {
             $this->setMessage('Bitte Eingaben überprüfen!');
+
             return false;
         }
 
@@ -224,70 +207,10 @@ class EventService
             }
         } catch (InvalidQueryException $e) {
             $this->setMessage('Event konnte nicht gespeichert werden!');
+
             return false;
         }
 
         return $this->fetchEventEntity($id);
     }
-<<<<<<< HEAD
-
-    /**
-     * @return EventEntity
-     */
-    public function getEntity()
-    {
-        return $this->entity;
-    }
-
-    /**
-     * @param EventEntity $entity
-     */
-    public function setEntity(EventEntity $entity)
-    {
-        $this->entity = $entity;
-    }
-
-    /**
-     * @param $id
-     *
-     * @return EventEntity
-     */
-    public function fetchEventEntity($id)
-    {
-        return $this->getTable()->fetchSingleById($id);
-    }
-
-    /**
-     * @return \Event\InputFilter\EventFilter
-     */
-    public function getFilter()
-    {
-        return $this->filter;
-    }
-
-    /**
-     * @param \Event\InputFilter\EventFilter $filter
-     */
-    public function setFilter($filter)
-    {
-        $this->filter = $filter;
-    }
-
-    /**
-     * @return EventHydrator
-     */
-    public function getHydrator()
-    {
-        return $this->hydrator;
-    }
-
-    /**
-     * @param EventHydrator $hydrator
-     */
-    public function setHydrator(EventHydrator $hydrator)
-    {
-        $this->hydrator = $hydrator;
-    }
-=======
->>>>>>> step3
 }
