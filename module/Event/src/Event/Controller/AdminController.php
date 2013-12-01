@@ -22,9 +22,37 @@ class AdminController extends AbstractActionController
      */
     protected $eventService = null;
 
+    /**
+     * @return ViewModel
+     */
     public function createAction()
     {
-        return new ViewModel();
+        $eventForm = $this->getEventForm();
+
+        if ($this->getRequest()->isPost()) {
+            $entity = $this->getEventService()->save(
+                $this->getRequest()->getPost()->toArray()
+            );
+
+            if ($entity) {
+                return $this->redirect()->toRoute('event-admin');
+            }
+
+            $eventForm->setData(
+                $this->getEventService()->getFilter()->getValues()
+            );
+
+            $eventForm->setMessages(
+                $this->getEventService()->getFilter()->getMessages()
+            );
+        }
+
+        return new ViewModel(
+            array(
+                'eventForm' => $eventForm,
+                'message'   => $this->getEventService()->getMessage(),
+            )
+        );
     }
 
     /**
@@ -89,6 +117,55 @@ class AdminController extends AbstractActionController
         return new ViewModel(
             array(
                 'event' => $event,
+            )
+        );
+    }
+
+    public function updateAction()
+    {
+        $id = (int)$this->params()->fromRoute('id');
+
+        $event = $this->getEventService()->fetchEventEntity($id);
+
+        if (!$event) {
+            $this->flashMessenger()->addErrorMessage('Unbekanntes Event');
+
+            return $this->redirect()->toRoute('event-admin');
+        }
+
+        $eventForm = $this->getEventForm();
+
+        if ($this->getRequest()->isPost()) {
+            $entity = $this->getEventService()->save(
+                $this->getRequest()->getPost()->toArray(),
+                $id
+            );
+
+            if ($entity) {
+                return $this->redirect()->toRoute(
+                    'event-admin/action',
+                    array('action' => 'update', 'id' => $entity->getId())
+                );
+            }
+
+            $eventForm->setData(
+                $this->getEventService()->getFilter()->getValues()
+            );
+
+            $eventForm->setMessages(
+                $this->getEventService()->getFilter()->getMessages()
+            );
+        } else {
+            $eventForm->setData(
+                $this->getEventService()->getHydrator()->extract($event)
+            );
+        }
+
+        return new ViewModel(
+            array(
+                'event'     => $event,
+                'eventForm' => $eventForm,
+                'message'   => $this->getEventService()->getMessage(),
             )
         );
     }

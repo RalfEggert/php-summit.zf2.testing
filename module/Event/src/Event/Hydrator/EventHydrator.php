@@ -28,7 +28,7 @@ class EventHydrator extends ClassMethods
         }
 
         if (isset($data['time']) && $data['time'] instanceof DateTime) {
-            $data['time'] = $data['time']->format('H:i:s');
+            $data['time'] = $data['time']->format('H:i');
         }
 
         return $data;

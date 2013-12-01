@@ -1,4 +1,8 @@
-<?php /* @var $event Event\Entity\EventEntity */ ?>
+<?php
+/* @var $event Event\Entity\EventEntity */
+
+$urlCreate = $this->url('event-admin/action', array('action' => 'create'));
+?>
 <h1>Events verwalten</h1>
 <table class="table table-bordered">
     <thead>
@@ -9,7 +13,11 @@
         <th>Datum</th>
         <th>Uhrzeit</th>
         <th>Status</th>
-        <th>&nbsp;</th>
+        <th>
+            <a href="<?php echo $urlCreate; ?>" class="btn btn-default">
+                anlegen
+            </a>
+        </th>
     </tr>
     </thead>
     <tbody>

@@ -1,9 +1,15 @@
 <?php
+/* @var $event Event\Entity\EventEntity */
+$event = $this->event;
+
 /* @var $eventForm Event\Form\EventForm */
 $eventForm = $this->eventForm;
 $eventForm->prepare();
 $eventForm->setAttribute(
-    'action', $this->url('event-admin/action', array('action' => 'create'))
+    'action', $this->url(
+        'event-admin/action',
+        array('action' => 'update', 'id' => $event->getId())
+    )
 );
 foreach ($eventForm->getElements() as $element) {
     $element->setLabelAttributes(
@@ -12,7 +18,7 @@ foreach ($eventForm->getElements() as $element) {
     $element->setAttributes(array('style' => 'display: block; width: 400px;'));
 }
 ?>
-<h1>Event anlegen</h1>
+<h1>Event bearbeiten</h1>
 <?php if ($this->message): ?>
     <div class="alert alert-danger"><?php echo $this->message ?></div>
 <?php endif; ?>

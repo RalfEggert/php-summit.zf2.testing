@@ -80,7 +80,7 @@ class EventForm extends Form
                 'name'    => 'time',
                 'options' => array(
                     'label'  => 'Uhrzeit',
-                    'format' => 'H:i:s',
+                    'format' => 'H:i',
                 ),
             )
         );
