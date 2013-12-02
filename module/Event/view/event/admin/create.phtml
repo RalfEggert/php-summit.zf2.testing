@@ -17,3 +17,9 @@ foreach ($eventForm->getElements() as $element) {
     <div class="alert alert-danger"><?php echo $this->message ?></div>
 <?php endif; ?>
 <?php echo $this->form($eventForm); ?>
+
+<p>
+    <a class="btn btn-default" href="<?php echo $this->url('event-admin'); ?>">
+        zurück
+    </a>
+</p>

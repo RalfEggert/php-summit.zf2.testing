@@ -53,6 +53,21 @@ return array(
             'SessionConfig' => 'Zend\Session\Service\SessionConfigFactory',
             'navigation'    => 'Zend\Navigation\Service\DefaultNavigationFactory',
         ),
+        'aliases' => array(
+            'translator' => 'MvcTranslator',
+        ),
+    ),
+
+    'translator' => array(
+        'locale'      => 'de',
+        'translation_file_patterns' => array(
+            array(
+                'type'        => 'phpArray',
+                'base_dir'    => __DIR__ . '/../language',
+                'pattern'     => 'Zend_Validate.php',
+                'text_domain' => 'default',
+            ),
+        )
     ),
 
     'session_config' => array(

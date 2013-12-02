@@ -91,6 +91,18 @@ return array(
                         'action'  => 'show',
                         'visible' => false,
                     ),
+                    array(
+                        'label'   => 'Event anlegen',
+                        'route'   => 'event-admin/action',
+                        'action'  => 'create',
+                        'visible' => false,
+                    ),
+                    array(
+                        'label'   => 'Event bearbeiten',
+                        'route'   => 'event-admin/action',
+                        'action'  => 'update',
+                        'visible' => false,
+                    ),
                 ),
             ),
         ),
