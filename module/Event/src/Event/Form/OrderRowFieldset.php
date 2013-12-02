@@ -24,7 +24,9 @@ class OrderRowFieldset extends Fieldset
                 array(
                     'type'    => 'OrderRowSeatFieldset',
                     'name'    => $row,
-                    'label'   => 'Reihe ' .  $row,
+                    'options' => array(
+                        'label'   => 'Reihe ' .  $row,
+                    ),
                 )
             );
         }

@@ -1,0 +1,72 @@
+<?php
+use Zend\Form\Fieldset;
+
+/* @var $event Event\Entity\EventEntity */
+/* @var $orderForm Event\Form\OrderForm */
+
+$event = $this->event;
+
+$orderForm = $this->orderForm;
+$orderForm->prepare();
+$orderForm->setAttribute(
+    'action', $this->url(
+        'event-order/action', array('action' => 'book', 'id' => $event->getId())
+    )
+);
+foreach ($orderForm->getElements() as $element) {
+    if ($element instanceof Fieldset) {
+        continue;
+    }
+
+    $element->setLabelAttributes(
+        array('style' => 'display: block; width: 200px;')
+    );
+    $element->setAttributes(array('style' => 'display: block; width: 400px;'));
+}
+
+?>
+<h1>Veranstaltung buchen</h1>
+<?php
+$date = $this->dateFormat(
+    $event->getDate(), IntlDateFormatter::LONG, IntlDateFormatter::NONE
+);
+$time = $this->dateFormat(
+    $event->getTime(), IntlDateFormatter::NONE, IntlDateFormatter::SHORT
+);
+?>
+<div class="row-fluid">
+    <div class="well">
+        <h2><?php echo $event->getName() ?></h2>
+        <p><em>Am <?php echo $date; ?> um <?php echo $time; ?> Uhr</em></p>
+        <p><?php echo $event->getDescription() ?></p>
+    </div>
+</div>
+
+<?php echo $this->form()->openTag($orderForm); ?>
+<?php echo $this->formRow($orderForm->get('name')) ?>
+<?php echo $this->formRow($orderForm->get('email')) ?>
+<?php echo $this->formRow($orderForm->get('iban')) ?>
+<?php echo $this->formRow($orderForm->get('bic')) ?>
+<h3><?php echo $orderForm->get('seats')->getLabel() ?></h3>
+<table class="table table-bordered table-striped">
+    <?php foreach ($orderForm->get('seats') as $fieldSetRow): ?>
+        <tr>
+            <th><?php echo $fieldSetRow->getLabel(); ?></th>
+            <?php foreach ($fieldSetRow as $fieldSetRowSeat): ?>
+                <td style="text-align: center">
+                    <?php echo $this->formLabel($fieldSetRowSeat); ?><br/>
+                    <?php echo $this->formElement($fieldSetRowSeat); ?><br/>
+                </td>
+            <?php endforeach; ?>
+        </tr>
+    <?php endforeach; ?>
+</table>
+<?php echo $this->formRow($orderForm->get('save_order')) ?>
+<?php echo $this->form()->closeTag($orderForm); ?>
+
+<hr/>
+<p>
+    <a class="btn btn-default" href="<?php echo $this->url('event-order'); ?>">
+        zurück
+    </a>
+</p>

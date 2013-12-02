@@ -26,12 +26,37 @@ return array(
                     ),
                 ),
             ),
+            'event-order' => array(
+                'type'          => 'Literal',
+                'options'       => array(
+                    'route'    => '/event/order',
+                    'defaults' => array(
+                        'controller' => 'event-order',
+                        'action'     => 'index',
+                    ),
+                ),
+                'may_terminate' => true,
+                'child_routes'  => array(
+                    'action' => array(
+                        'type'    => 'Segment',
+                        'options' => array(
+                            'route'       => '/:action[/:id]',
+                            'constraints' => array(
+                                'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                'id'     => '[0-9]*',
+                            ),
+                            'defaults'    => array(),
+                        ),
+                    ),
+                ),
+            ),
         ),
     ),
 
     'controllers'     => array(
         'factories' => array(
             'event-admin' => 'Event\Controller\AdminControllerFactory',
+            'event-order' => 'Event\Controller\OrderControllerFactory',
         ),
     ),
 
@@ -112,6 +137,18 @@ return array(
                         'label'   => 'Event bearbeiten',
                         'route'   => 'event-admin/action',
                         'action'  => 'update',
+                        'visible' => false,
+                    ),
+                ),
+            ),
+            array(
+                'label' => 'Veranstaltung buchen',
+                'route' => 'event-order',
+                'pages' => array(
+                    array(
+                        'label'   => 'Platz buchen',
+                        'route'   => 'event-order/action',
+                        'action'  => 'book',
                         'visible' => false,
                     ),
                 ),
