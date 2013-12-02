@@ -36,23 +36,6 @@ class OrderFilter extends InputFilter
      */
     public function init()
     {
-
-        $this->add(
-            array(
-                'name'       => 'status',
-                'required'   => true,
-                'validators' => array(
-                    array(
-                        'name'    => 'InArray',
-                        'options' => array(
-                            'haystack' => $this->getStatusHaystack(),
-                            'message'  => 'Ungültiger Status!',
-                        ),
-                    ),
-                ),
-            )
-        );
-
         $this->add(
             array(
                 'name'       => 'name',
