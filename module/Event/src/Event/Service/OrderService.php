@@ -6,6 +6,7 @@ use Event\Hydrator\OrderHydrator;
 use Event\InputFilter\OrderFilter;
 use Event\Table\OrderTable;
 use Zend\Db\Adapter\Exception\InvalidQueryException;
+use Zend\Math\Rand;
 
 /**
  * Class OrderService
@@ -48,6 +49,20 @@ class OrderService
         $this->table    = $table;
         $this->hydrator = $hydrator;
         $this->filter   = $filter;
+    }
+
+    /**
+     * @return string
+     */
+    public function createPrimaryKey()
+    {
+        do {
+            $newId = Rand::getString(8, '0123456789abcdefABCDEF', true);
+
+            $order = $this->fetchOrderEntity($newId);
+        } while ($order !== false);
+
+        return $newId;
     }
 
     /**
@@ -196,12 +211,21 @@ class OrderService
 
         $this->getHydrator()->hydrate($data, $entity);
 
+        if ($mode == 'insert') {
+            $newId = $this->createPrimaryKey();
+
+            $entity->setId($newId);
+            $entity->setDatetime(new \DateTime());
+            $entity->setCount(0);
+            $entity->setStatus(1);
+        }
+
         $saveData = $this->getHydrator()->extract($entity);
 
         try {
             if ($mode == 'insert') {
                 $this->getTable()->insert($saveData);
-                $id = $this->getTable()->getLastInsertValue();
+                $id = $newId;
             } else {
                 $this->getTable()->update($saveData, array('id' => $id));
             }

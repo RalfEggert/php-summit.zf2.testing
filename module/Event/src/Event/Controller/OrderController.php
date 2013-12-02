@@ -2,9 +2,6 @@
 
 namespace Event\Controller;
 
-use Event\Form\OrderForm;
-use Event\Service\EventService;
-use Event\Service\OrderService;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
@@ -15,27 +12,28 @@ use Zend\View\Model\ViewModel;
  */
 class OrderController extends AbstractActionController
 {
+
     /**
      * @var EventService
      */
-    protected $eventService;
+    protected $eventService = null;
     /**
      * @var OrderForm
      */
-    protected $orderForm;
+    protected $orderForm = null;
     /**
      * @var OrderService
      */
-    protected $orderService;
+    protected $orderService = null;
 
     /**
      * @return ViewModel
      */
     public function bookAction()
     {
-        $id = (int)$this->params()->fromRoute('id');
+        $eventId = (int)$this->params()->fromRoute('id');
 
-        $event = $this->getEventService()->fetchEventEntity($id);
+        $event = $this->getEventService()->fetchEventEntity($eventId);
 
         if (!$event) {
             $this->flashMessenger()->addErrorMessage('Unbekanntes Event');
@@ -46,18 +44,22 @@ class OrderController extends AbstractActionController
         $orderForm = $this->getOrderForm();
 
         if ($this->getRequest()->isPost()) {
-            $entity = $this->getOrderService()->save(
-                $this->getRequest()->getPost()->toArray()
-            );
+            $postData          = $this->getRequest()->getPost()->toArray();
+            $postData['event'] = $eventId;
 
-            \Zend\Debug\Debug::dump($entity);
-            \Zend\Debug\Debug::dump($this->getOrderService()->getFilter()->getValues());
-            \Zend\Debug\Debug::dump($this->getOrderService()->getFilter()->getMessages());
+            $order = $this->getOrderService()->save($postData);
 
-            if ($entity) {
+            if ($order) {
+                $this->flashMessenger()->addSuccessMessage(
+                    'Ihre Bestellung wurde gespeichert!'
+                );
+
                 return $this->redirect()->toRoute(
                     'event-order/action',
-                    array('action' => 'saved', 'id' => $entity->getId())
+                    array(
+                        'action' => 'show', 'id' => $eventId,
+                        'order'  => $order->getId()
+                    )
                 );
             }
 
@@ -137,5 +139,29 @@ class OrderController extends AbstractActionController
             )
         );
     }
+
+    public function showAction()
+    {
+        $orderId = $this->params()->fromRoute('order');
+
+        $order = $this->getOrderService()->fetchOrderEntity($orderId);
+
+        if (!$order) {
+            $this->flashMessenger()->addErrorMessage('Unbekannte Bestellung!');
+
+            return $this->redirect()->toRoute('event-order');
+        }
+
+        $event = $this->getEventService()->fetchEventEntity($order->getEvent());
+
+        return new ViewModel(
+            array(
+                'order' => $order,
+                'event' => $event,
+            )
+        );
+    }
+
+
 }
 

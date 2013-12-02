@@ -1,0 +1,76 @@
+<?php
+/* @var $order Event\Entity\OrderEntity */
+$order = $this->order;
+
+$orderDate = $this->dateFormat(
+    $order->getDatetime(), IntlDateFormatter::LONG, IntlDateFormatter::MEDIUM
+);
+
+/* @var $event Event\Entity\EventEntity */
+$event = $this->event;
+
+$eventDate = $this->dateFormat(
+    $event->getDate(), IntlDateFormatter::LONG, IntlDateFormatter::NONE
+);
+$eventTime = $this->dateFormat(
+    $event->getTime(), IntlDateFormatter::NONE, IntlDateFormatter::SHORT
+);
+?>
+
+<h1>Bestellung <?php echo $order->getId(); ?></h1>
+<table class="table table-bordered">
+    <tbody>
+    <tr>
+        <th>Bestellnummer</th>
+        <td><?php echo $order->getId(); ?></td>
+    </tr>
+    <tr>
+        <th>Bestelldatum</th>
+        <td><?php echo $orderDate; ?></td>
+    </tr>
+    <tr>
+        <th>Veranstaltung</th>
+        <td>
+            <p><strong><?php echo $event->getName() ?></strong></p>
+            <p><em>Am <?php echo $eventDate; ?> um <?php echo $eventTime; ?> Uhr</em></p>
+            <p><?php echo $event->getDescription() ?></p>
+        </td>
+    </tr>
+    <tr>
+        <th>Name</th>
+        <td><?php echo $order->getName(); ?></td>
+    </tr>
+    <tr>
+        <th>E-Mail Adresse</th>
+        <td><?php echo $order->getEmail(); ?></td>
+    </tr>
+    <tr>
+        <th>IBAN</th>
+        <td><?php echo $order->getIban(); ?></td>
+    </tr>
+    <tr>
+        <th>BIC-Code</th>
+        <td><?php echo $order->getBic(); ?></td>
+    </tr>
+    </tbody>
+</table>
+
+<h3>Gebuchte Plätze</h3>
+<table class="table table-bordered table-striped table-condensed">
+    <?php foreach ($order->getSeats() as $row => $rowData) : ?>
+    <tr>
+        <th>Reihe <?php echo $row; ?></th>
+        <?php foreach ($rowData as $seat => $seatData): ?>
+            <td style="text-align: center">
+                <?php echo $seat; ?><br />
+                <?php if ($seatData) : ?>
+                    <span class="fa fa-check-square-o"></span>
+                <?php else: ?>
+                    <span class="fa fa-square-o"></span>
+                <?php endif; ?>
+            </td>
+        <?php endforeach; ?>
+    </tr>
+    <?php endforeach; ?>
+</table>
+

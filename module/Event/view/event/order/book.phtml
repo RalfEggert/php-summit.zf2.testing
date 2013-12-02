@@ -48,7 +48,7 @@ $time = $this->dateFormat(
 <?php echo $this->formRow($orderForm->get('iban')) ?>
 <?php echo $this->formRow($orderForm->get('bic')) ?>
 <h3><?php echo $orderForm->get('seats')->getLabel() ?></h3>
-<table class="table table-bordered table-striped">
+<table class="table table-bordered table-striped table-condensed">
     <?php foreach ($orderForm->get('seats') as $fieldSetRow): ?>
         <tr>
             <th><?php echo $fieldSetRow->getLabel(); ?></th>
