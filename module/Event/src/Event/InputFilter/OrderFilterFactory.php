@@ -5,11 +5,11 @@ use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
- * Class EventFilterFactory
+ * Class OrderFilterFactory
  *
  * @package Event\InputFilter
  */
-class EventFilterFactory implements FactoryInterface
+class OrderFilterFactory implements FactoryInterface
 {
     /**
      * @param ServiceLocatorInterface $inputFilterManager
@@ -20,10 +20,10 @@ class EventFilterFactory implements FactoryInterface
 
         $config = $serviceLocator->get('Event\Config');
 
-        $inputFilter = new EventFilter();
+        $inputFilter = new OrderFilter();
         $inputFilter->setStatusHaystack(
             array_keys(
-                $config['options']['event_status']
+                $config['options']['order_status']
             )
         );
 

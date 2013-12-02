@@ -25,7 +25,7 @@ class EventStatusFactory implements FactoryInterface
         $config = $serviceLocator->get('Event\Config');
 
         $helper = new EventStatus();
-        $helper->setStatusOptions($config['options']['status']);
+        $helper->setStatusOptions($config['options']['event_status']);
 
         return $helper;
     }

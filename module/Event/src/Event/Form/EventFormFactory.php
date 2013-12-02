@@ -21,7 +21,7 @@ class EventFormFactory implements FactoryInterface
         $config = $serviceLocator->get('Event\Config');
 
         $form = new EventForm();
-        $form->setStatusOptions($config['options']['status']);
+        $form->setStatusOptions($config['options']['event_status']);
 
         return $form;
     }

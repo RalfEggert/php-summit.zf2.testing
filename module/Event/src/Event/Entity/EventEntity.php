@@ -10,19 +10,36 @@ use DateTime;
  */
 class EventEntity
 {
+    protected $date;
+    protected $description;
     protected $id;
     protected $name;
-    protected $description;
-    protected $date;
-    protected $time;
+    protected $seatMatrix;
+    protected $seats;
     protected $status;
+    protected $time;
 
-    /**
-     * @param DateTime $date
-     */
-    public function setDate(DateTime $date)
+    function __construct()
     {
-        $this->date = $date;
+        $seatsPerRow = range('A', 'T');
+
+        $this->seatMatrix = array(
+            1  => array_fill_keys($seatsPerRow, false),
+            2  => array_fill_keys($seatsPerRow, false),
+            3  => array_fill_keys($seatsPerRow, false),
+            4  => array_fill_keys($seatsPerRow, false),
+            5  => array_fill_keys($seatsPerRow, false),
+            6  => array_fill_keys($seatsPerRow, false),
+            7  => array_fill_keys($seatsPerRow, false),
+            8  => array_fill_keys($seatsPerRow, false),
+            9  => array_fill_keys($seatsPerRow, false),
+            10 => array_fill_keys($seatsPerRow, false),
+            11 => array_fill_keys($seatsPerRow, false),
+            12 => array_fill_keys($seatsPerRow, false),
+            13 => array_fill_keys($seatsPerRow, false),
+            14 => array_fill_keys($seatsPerRow, false),
+            15 => array_fill_keys($seatsPerRow, false),
+        );
     }
 
     /**
@@ -34,19 +51,19 @@ class EventEntity
     }
 
     /**
-     * @param DateTime $time
+     * @param DateTime $date
      */
-    public function setTime(DateTime $time)
+    public function setDate(DateTime $date)
     {
-        $this->time = $time;
+        $this->date = $date;
     }
 
     /**
-     * @return DateTime
+     * @return mixed
      */
-    public function getTime()
+    public function getDescription()
     {
-        return $this->time;
+        return $this->description;
     }
 
     /**
@@ -60,9 +77,9 @@ class EventEntity
     /**
      * @return mixed
      */
-    public function getDescription()
+    public function getId()
     {
-        return $this->description;
+        return $this->id;
     }
 
     /**
@@ -76,9 +93,9 @@ class EventEntity
     /**
      * @return mixed
      */
-    public function getId()
+    public function getName()
     {
-        return $this->id;
+        return $this->name;
     }
 
     /**
@@ -92,9 +109,45 @@ class EventEntity
     /**
      * @return mixed
      */
-    public function getName()
+    public function getSeatMatrix()
     {
-        return $this->name;
+        return $this->seatMatrix;
+    }
+
+    /**
+     * @param mixed $seatMatrix
+     */
+    public function setSeatMatrix($seatMatrix)
+    {
+        $this->seatMatrix = $seatMatrix;
+    }
+
+    /**
+     * @return array
+     */
+    public function getSeats()
+    {
+        return $this->seats;
+    }
+
+    /**
+     * @param array $seats
+     */
+    public function setSeats(array $seats)
+    {
+        if (empty($seats)) {
+            $this->seats = $this->seatMatrix;
+        } else {
+            $this->seats = $seats;
+        }
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getStatus()
+    {
+        return $this->status;
     }
 
     /**
@@ -106,11 +159,19 @@ class EventEntity
     }
 
     /**
-     * @return mixed
+     * @return DateTime
      */
-    public function getStatus()
+    public function getTime()
     {
-        return $this->status;
+        return $this->time;
+    }
+
+    /**
+     * @param DateTime $time
+     */
+    public function setTime(DateTime $time)
+    {
+        $this->time = $time;
     }
 
 }

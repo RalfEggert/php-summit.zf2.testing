@@ -5,16 +5,23 @@ use Zend\Serializer\Serializer;
 use Zend\Stdlib\Hydrator\ClassMethods;
 use DateTime;
 
-class EventHydrator extends ClassMethods
+/**
+ * Class OrderHydrator
+ *
+ * @package Event\Hydrator
+ */
+class OrderHydrator extends ClassMethods
 {
+    /**
+     * @param array  $data
+     * @param object $object
+     *
+     * @return object
+     */
     public function hydrate(array $data, $object)
     {
-        if (isset($data['date'])) {
-            $data['date'] = new DateTime($data['date']);
-        }
-
-        if (isset($data['time'])) {
-            $data['time'] = new DateTime($data['time']);
+        if (isset($data['datetime'])) {
+            $data['datetime'] = new DateTime($data['datetime']);
         }
 
         if (isset($data['seats']) && is_string($data['seats'])) {
@@ -24,16 +31,17 @@ class EventHydrator extends ClassMethods
         return parent::hydrate($data, $object);
     }
 
+    /**
+     * @param object $object
+     *
+     * @return array
+     */
     public function extract($object)
     {
         $data = parent::extract($object);
 
-        if (isset($data['date']) && $data['date'] instanceof DateTime) {
-            $data['date'] = $data['date']->format('Y-m-d');
-        }
-
-        if (isset($data['time']) && $data['time'] instanceof DateTime) {
-            $data['time'] = $data['time']->format('H:i');
+        if (isset($data['datetime']) && $data['datetime'] instanceof DateTime) {
+            $data['datetime'] = $data['datetime']->format('Y-m-d H:i:s');
         }
 
         if (isset($data['seats']) && is_array($data['seats'])) {

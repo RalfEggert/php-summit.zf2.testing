@@ -44,25 +44,35 @@ return array(
     'service_manager' => array(
         'invokables' => array(
             'Event\Entity\Event' => 'Event\Entity\EventEntity',
+            'Event\Entity\Order' => 'Event\Entity\OrderEntity',
         ),
         'factories'  => array(
             'Event\Table\Event'   => 'Event\Table\EventTableFactory',
             'Event\Service\Event' => 'Event\Service\EventServiceFactory',
             'Event\Config'        => 'Event\Config\EventConfigFactory',
+            'Event\Table\Order'   => 'Event\Table\OrderTableFactory',
+            'Event\Service\Order' => 'Event\Service\OrderServiceFactory',
         ),
         'shared'     => array(
             'Event\Entity\Event' => false,
+            'Event\Entity\Order' => false,
         ),
     ),
 
     'input_filters'   => array(
         'factories' => array(
             'Event\Filter' => 'Event\InputFilter\EventFilterFactory',
+            'Order\Filter' => 'Event\InputFilter\OrderFilterFactory',
         ),
     ),
 
     'form_elements'   => array(
-        'factories' => array(
+        'invokables' => array(
+            'Order\Form'           => 'Event\Form\OrderForm',
+            'OrderRowSeatFieldset' => 'Event\Form\OrderRowSeatFieldset',
+            'OrderRowFieldset'     => 'Event\Form\OrderRowFieldset',
+        ),
+        'factories'  => array(
             'Event\Form' => 'Event\Form\EventFormFactory',
         ),
     ),
@@ -70,6 +80,7 @@ return array(
     'hydrators'       => array(
         'invokables' => array(
             'Event\Hydrator' => 'Event\Hydrator\EventHydrator',
+            'Order\Hydrator' => 'Event\Hydrator\OrderHydrator',
         ),
     ),
 
