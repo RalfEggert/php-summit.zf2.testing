@@ -6,6 +6,7 @@ use Event\Hydrator\OrderHydrator;
 use Event\InputFilter\OrderFilter;
 use Event\Table\OrderTable;
 use Zend\Db\Adapter\Exception\InvalidQueryException;
+use Zend\EventManager\EventManager;
 use Zend\Math\Rand;
 
 /**
@@ -15,11 +16,14 @@ use Zend\Math\Rand;
  */
 class OrderService
 {
-
     /**
      * @var OrderEntity
      */
     protected $entity;
+    /**
+     * @var EventManager
+     */
+    protected $eventManager;
     /**
      * @var OrderFilter
      */
@@ -121,6 +125,24 @@ class OrderService
     public function setEntity(OrderEntity $entity)
     {
         $this->entity = $entity;
+    }
+
+    /**
+     * @return \Zend\EventManager\EventManager
+     */
+    public function getEventManager()
+    {
+        return $this->eventManager;
+    }
+
+    /**
+     * @param \Zend\EventManager\EventManager $eventManager
+     */
+    public function setEventManager($eventManager)
+    {
+        $eventManager->addIdentifiers(array(__CLASS__));
+
+        $this->eventManager = $eventManager;
     }
 
     /**
@@ -235,6 +257,14 @@ class OrderService
             return false;
         }
 
-        return $this->fetchOrderEntity($id);
+        $entity = $this->fetchOrderEntity($id);
+
+        if ($mode == 'insert') {
+            $result = $this->getEventManager()->trigger(
+                'postOrderInsert', __CLASS__, array('order' => $entity)
+            );
+        }
+
+        return $entity;
     }
 }

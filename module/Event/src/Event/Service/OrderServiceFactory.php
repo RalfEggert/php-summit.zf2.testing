@@ -1,6 +1,7 @@
 <?php
 namespace Event\Service;
 
+use Event\Listener\OrderServiceListener;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
@@ -20,15 +21,18 @@ class OrderServiceFactory implements FactoryInterface
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        $hydratorManager = $serviceLocator->get('HydratorManager');
+        $hydratorManager    = $serviceLocator->get('HydratorManager');
         $inputFilterManager = $serviceLocator->get('InputFilterManager');
 
-        $table    = $serviceLocator->get('Event\Table\Order');
-        $entity   = $serviceLocator->get('Event\Entity\Order');
-        $hydrator = $hydratorManager->get('Order\Hydrator');
-        $filter   = $inputFilterManager->get('Order\Filter');
+        $table        = $serviceLocator->get('Event\Table\Order');
+        $entity       = $serviceLocator->get('Event\Entity\Order');
+        $hydrator     = $hydratorManager->get('Order\Hydrator');
+        $filter       = $inputFilterManager->get('Order\Filter');
+        $eventManager = $serviceLocator->get('EventManager');
+        $eventManager->attachAggregate(new OrderServiceListener());
 
         $service = new OrderService($entity, $table, $hydrator, $filter);
+        $service->setEventManager($eventManager);
 
         return $service;
     }
