@@ -1,5 +1,4 @@
 <?php
-
 namespace Event\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
@@ -42,6 +41,21 @@ class OrderController extends AbstractActionController
         }
 
         $orderForm = $this->getOrderForm();
+
+        $bookedSeats = $this->getOrderService()->fetchBookedSeatsByEvent(
+            $event->getId()
+        );
+
+        foreach ($bookedSeats as $row => $rowData) {
+            foreach ($rowData as $seat => $seatData) {
+                if ($seatData > 0) {
+                    $orderForm->get('seats')->get($row)->get($seat)
+                        ->setAttribute('checked', 'checked');
+                    $orderForm->get('seats')->get($row)->get($seat)
+                        ->setAttribute('disabled', 'disabled');
+                }
+            }
+        }
 
         if ($this->getRequest()->isPost()) {
             $postData          = $this->getRequest()->getPost()->toArray();

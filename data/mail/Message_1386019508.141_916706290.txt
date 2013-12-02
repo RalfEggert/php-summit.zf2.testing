@@ -1,0 +1,9 @@
+Date: Mon, 02 Dec 2013 22:25:08 +0100
+From: Event <events@ralfeggert.de>
+To: Horst Skoff <ralf@travello.com>
+Subject: Bestellung eingegangen
+
+Ihre Bestellung ist eingegangen.
+
+Sie können Sie hier anschauen und ändern:
+http://php-summit.zf2/event/order/show/456/A5b4abDb

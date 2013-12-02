@@ -35,6 +35,18 @@ class OrderTable extends TableGateway
     }
 
     /**
+     * @return null|ResultSetInterface
+     */
+    function fetchManyByEvent($event)
+    {
+        $select = $this->getSql()->select();
+        $select->where->equalTo('event', $event);
+        $select->order('datetime DESC');
+
+        return $this->selectWith($select);
+    }
+
+    /**
      * @param $id
      *
      * @return OrderEntity

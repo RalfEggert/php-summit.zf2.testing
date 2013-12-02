@@ -112,6 +112,31 @@ class OrderService
     }
 
     /**
+     * @return array
+     */
+    public function fetchBookedSeatsByEvent($event)
+    {
+        /* @var $order OrderEntity */
+        $bookedSeats = array();
+
+        foreach ($this->getTable()->fetchManyByEvent($event) as $order) {
+            foreach ($order->getSeats() as $row => $rowData) {
+                if (!isset($bookedSeats[$row])) {
+                    $bookedSeats[$row] = array();
+                }
+                foreach ($rowData as $seat => $seatData) {
+                    if (!isset($bookedSeats[$row][$seat])) {
+                        $bookedSeats[$row][$seat] = 0;
+                    }
+                    $bookedSeats[$row][$seat] += $seatData;
+                }
+            }
+        }
+
+        return $bookedSeats;
+    }
+
+    /**
      * @return OrderEntity
      */
     public function getEntity()
